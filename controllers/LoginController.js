@@ -21,7 +21,7 @@ exports.postLoginGo = async function(req, res){
                 res.redirect('/user/login')
             }
             if (user) {
-                req.session.user = {id: user._id, username: user.username, title: user.title}
+                req.session.user = {id: user._id, username: user.username, title: user.title, description: user.description}
                 res.redirect('/')
             }
         }).catch(() => {
@@ -32,7 +32,7 @@ exports.postLoginGo = async function(req, res){
 
 exports.postCreateUser = async function(req, res){
     let user = await api.createUser(req.body)
-    req.session.user = {id: user._id, username: user.username, title: user.title}
+    req.session.user = {id: user._id, username: user.username, title: user.title, description: user.description}
     return res.redirect('/')
 }
 
