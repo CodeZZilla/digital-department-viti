@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/mainStyle.css">
+    <link rel="stylesheet" href="/style/adminStyle.css">
+    <link rel="stylesheet" href="/style/schedule.css">
+    <link href="/style/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <title>Редагувати</title>
+</head>
+<body>
+<div class="wrapper">
+    <main>
+        <div class="schedule">
+            <div class="schedule-container">
+                <div class="schedule">
+                    <div class="schedule-table ">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>1 пара</th>
+                                <th>2 пара</th>
+                                <th>3 пара</th>
+                                <th>4 пара</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for (let i = 0; i < audiences.length; i++){ %>
+                            <tr>
+                                <th><%= audiences[i].audienceTitle %></th>
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <form class="schedule-block-admin rounded shadow-sm"
+                                              id="form_<%= audiences[i]._id %>_1">
+                                            <div class="first">
+                                                <div class="form-floating m-1 first-1">
+                                                    <input type="text" class="form-control group">
+                                                    <label>Група</label>
+                                                </div>
+                                                <div class="form-floating m-1 first-2">
+                                                    <select class="form-select type-less"
+                                                            aria-label="Floating label select example">
+                                                        <option value="null" selected></option>
+                                                        <% for (let item of types){ %>
+                                                        <option value="<%= item._id %>"><%= item.typeTitle %></option>
+                                                        <% } %>
+                                                    </select>
+                                                    <label>Вид заняття</label>
+                                                </div>
+                                            </div>
+                                            <div class="second">
+                                                <div class="form-floating m-1 second-1">
+                                                    <input type="text" class="form-control title">
+                                                    <label>Предмет</label>
+                                                </div>
+                                                <div class="form-floating m-1 second-2">
+                                                    <input type="text" class="form-control teacher">
+                                                    <label>Викладач</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <form class="schedule-block-admin rounded shadow-sm"
+                                              id="form_<%= audiences[i]._id %>_2">
+                                            <div class="first">
+                                                <div class="form-floating m-1 first-1">
+                                                    <input type="text" class="form-control group">
+                                                    <label>Група</label>
+                                                </div>
+                                                <div class="form-floating m-1 first-2">
+                                                    <select class="form-select type-less"
+                                                            aria-label="Floating label select example">
+                                                        <option value="null" selected></option>
+                                                        <% for (let item of types){ %>
+                                                        <option value="<%= item._id %>"><%= item.typeTitle %></option>
+                                                        <% } %>
+                                                    </select>
+                                                    <label>Вид заняття</label>
+                                                </div>
+                                            </div>
+                                            <div class="second">
+                                                <div class="form-floating m-1 second-1">
+                                                    <input type="text" class="form-control title">
+                                                    <label>Предмет</label>
+                                                </div>
+                                                <div class="form-floating m-1 second-2">
+                                                    <input type="text" class="form-control teacher">
+                                                    <label>Викладач</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <form class="schedule-block-admin rounded shadow-sm"
+                                              id="form_<%= audiences[i]._id %>_3">
+                                            <div class="first">
+                                                <div class="form-floating m-1 first-1">
+                                                    <input type="text" class="form-control group">
+                                                    <label>Група</label>
+                                                </div>
+                                                <div class="form-floating m-1 first-2">
+                                                    <select class="form-select type-less"
+                                                            aria-label="Floating label select example">
+                                                        <option value="null" selected></option>
+                                                        <% for (let item of types){ %>
+                                                        <option value="<%= item._id %>"><%= item.typeTitle %></option>
+                                                        <% } %>
+                                                    </select>
+                                                    <label>Вид заняття</label>
+                                                </div>
+                                            </div>
+                                            <div class="second">
+                                                <div class="form-floating m-1 second-1">
+                                                    <input type="text" class="form-control title">
+                                                    <label>Предмет</label>
+                                                </div>
+                                                <div class="form-floating m-1 second-2">
+                                                    <input type="text" class="form-control teacher">
+                                                    <label>Викладач</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <form class="schedule-block-admin rounded shadow-sm"
+                                              id="form_<%= audiences[i]._id %>_4">
+                                            <div class="first">
+                                                <div class="form-floating m-1 first-1">
+                                                    <input type="text" class="form-control group">
+                                                    <label>Група</label>
+                                                </div>
+                                                <div class="form-floating m-1 first-2">
+                                                    <select class="form-select type-less"
+                                                            aria-label="Floating label select example">
+                                                        <option value="null" selected></option>
+                                                        <% for (let item of types){ %>
+                                                        <option value="<%= item._id %>"><%= item.typeTitle %></option>
+                                                        <% } %>
+                                                    </select>
+                                                    <label>Вид заняття</label>
+                                                </div>
+                                            </div>
+                                            <div class="second">
+                                                <div class="form-floating m-1 second-1">
+                                                    <input type="text" class="form-control title">
+                                                    <label>Предмет</label>
+                                                </div>
+                                                <div class="form-floating m-1 second-2">
+                                                    <input type="text" class="form-control teacher">
+                                                    <label>Викладач</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="fixed-bottom footer">
+                    <div class="container-fluid">
+                        <div class="footer-container">
+                            <a href="/admin/schedule/view/<%= user.username %>">
+                                <img class="arrow-back rounded"
+                                     src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMCAuNzU1bC0xNC4zNzQgMTEuMjQ1IDE0LjM3NCAxMS4yMTktLjYxOS43ODEtMTUuMzgxLTEyIDE1LjM5MS0xMiAuNjA5Ljc1NXoiLz48L3N2Zz4=">
+                            </a>
+                            <form class="date-form">
+                                <div class="form-group ">
+                                    <input type="date" class="form-control" id="dateSave"
+                                           onchange="changeData(this.value)">
+                                </div>
+                            </form>
+                            <div class="submit-button">
+                                <div class="loading spinner-border m-1" style="display: none;" id="load-spinner"
+                                     role="status">
+                                    <!-- <span class="visually-hidden">Loading...</span> -->
+                                </div>
+                                <button type="button" class="btn btn-success" onclick="saveEvent()"> Зберегти зміни
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/schedule-edit.js"></script>
+</body>
+</html>

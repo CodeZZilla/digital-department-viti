@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Розклад</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/schedule.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <% if(userSession === undefined){ %>
+        <a class="navbar-brand" href="/"><%= title %></a>
+    <% }else{ %>
+        <a class="navbar-brand" href="/"><%= userSession.title %></a>
+    <% } %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+            <% if(userSession !== undefined){ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Головна</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Розклад</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/audience/">Аудиторії</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/settings/">Налаштування</a>
+                </li>
+
+            <% } else{ %>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Головна</a>
+                </li>
+            <% } %>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Інструкція</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Про продукт</a>
+            </li>
+
+        </ul>
+        <% if(userSession === undefined){ %>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="/user/login">Увійти</a>
+            <a class="btn btn-outline-info ml-2 my-2 my-sm-0" href="/user/create">Зареєструватися</a>
+        <% } else { %>
+            <form class="my-2 my-sm-0" action="/user/logout" method="post">
+                <button class="btn btn-outline-danger" type="submit">Вийти</button>
+            </form>
+        <% } %>
+    </div>
+</nav>
+
+<div class="container mb-2 mt-4">
+    <div class="row justify-content-md-center">
+        <div class="col d-flex">
+            <div class="my-auto mx-auto d-flex">
+                <h3>Розклад занять на</h3>
+                <div class="dropdown ml-4">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Сьогодні
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" id="btn-1" onclick="btnClick(this.id)" type="button">Сьогодні
+                        </button>
+                        <button class="dropdown-item" id="btn-2" onclick="btnClick(this.id)" type="button">Завтра
+                        </button>
+                        <button class="dropdown-item" id="btn-3" onclick="btnClick(this.id)" type="button">Післязавтра
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 d-flex">
+            <button class="btn btn-outline-success" type="button" onclick="fullscreenFunc()">На весь екран</button>
+            <% if(userSession !== undefined){ %>
+                <% if(idUser === userSession.id){ %>
+                    <a class="btn btn-outline-success ml-2" href="/admin/schedule/edit">Редагувати розклад</a>
+                    <a class="btn btn-outline-success ml-2" href="/admin/audience/edit-group">Редагувати сам.під.</a>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<input id="idUser" type="text" hidden value="<%= idUser %>">
+<input id="username" type="text" hidden value="<%= username %>">
+
+<div id="schedule-container" class="container-fluid mb-3 mt-3 pb-1 pt-1">
+    <div class="row lines-0">
+        <div class="col">
+            <p class="h1 text-center" id="clock"></p>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col">
+            <p class="h2 text-center">1 пара</p>
+        </div>
+        <div class="col">
+            <p class="h2 text-center">2 пара</p>
+        </div>
+        <div class="col">
+            <p class="h2 text-center">3 пара</p>
+        </div>
+        <div class="col">
+            <p class="h2 text-center">4 пара</p>
+        </div>
+        <div class="col">
+            <p class="h2 text-center">Сам.підготовка</p>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- Вільна-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-custom border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">Вільна</p>
+            </div>
+        </div>
+
+        <!-- ПЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-blue border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- СР-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Л-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-red border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- СР когда группа на сампо-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- ГЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ЕКЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-dark border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- Вільна-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-custom border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">Вільна</p>
+            </div>
+        </div>
+
+        <!-- ПЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-blue border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- СР-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Л-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-red border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- ГЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- Вільна-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-custom border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">Вільна</p>
+            </div>
+        </div>
+
+        <!-- ПЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-blue border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- СР-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Л-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-red border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- ГЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+    <div class="row lines">
+        <div class="col-1 d-flex">
+            <p class="h1 font-weight-bold my-auto mx-auto text-center">230</p>
+        </div>
+        <!-- ГЗ-->
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-green border height-card"
+                 style="border-radius: 10px">
+                <div class="row g-0 no-gutters mx-0 px-0">
+                    <div class="col-md-5 d-flex">
+                        <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">200</p>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="my-auto mx-auto">
+                            <p class="h3 text-center text-light">ООП</p>
+                            <p class="h5 text-center text-light">Нестеренко</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="col-sm-12 my-auto mx-auto card px-0 gradient-orange border height-card"
+                 style="border-radius: 10px">
+                <p class="h1 font-weight-bold text-light my-auto mx-auto card-title">282</p>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+</div>
+
+
+<footer class="text-center text-lg-start bg-light text-muted">
+    <div class="text-center p-4">
+        © 2021 Створено у ВІТІ
+        <a class="text-reset fw-bold" href="http://www.viti.edu.ua/">Viti.edu.ua</a>
+    </div>
+</footer>
+
+<script src="/js/jquery-3.2.1.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/schedule-view.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/schedule-data.js"></script>
+</body>
+</html>

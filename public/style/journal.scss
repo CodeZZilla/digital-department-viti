@@ -1,0 +1,78 @@
+main {
+  padding: 0;
+}
+
+@mixin createButton($width, $height, $radius, $gradientFirst, $gradientThird,
+$shadowColor, $textColor, $font-size) {
+  border-radius: $radius;
+  background-image: linear-gradient(135deg, $gradientFirst 0%, $gradientThird 100%);
+  box-shadow: 0 .6em .6em -.2em $shadowColor;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: $font-size;
+  color: $textColor;
+  height: $height;
+  width: $width;
+}
+
+.teacher-journal {
+
+  .journal-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #eee;
+    align-items: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    .discipline {
+      width: 100%;
+      text-align: center;
+      font-weight: 700;
+      display: flex;
+      padding: 0 1em;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: .05em;
+      transition: all .3s ease-in-out;
+      @include createButton(max-content, 2.5em, .2em, none, none, none, #111, 1em);
+      -webkit-transition: all .3s ease-in-out;
+      -moz-transition: all .3s ease-in-out;
+      -ms-transition: all .3s ease-in-out;
+      -o-transition: all .3s ease-in-out;
+      cursor: default;
+    }
+
+  }
+  .journal-body{
+    margin-top: 2em;
+    table{
+      //width: 100%;
+
+      thead{
+        border-bottom: 1px solid #2c2c2c ;
+      }
+      .jornal-table-th{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button{
+          background: none;
+          border: none;
+        }
+      }
+      .journal-table-td{
+        display: flex;
+        justify-content: center;
+        input{
+          border: none;
+          border-bottom: rgba(139,206,255,0.67) solid 1px;
+          width: 7em;
+          text-align: center;
+          margin: .5em 1em;
+        }
+      }
+    }
+  }
+}

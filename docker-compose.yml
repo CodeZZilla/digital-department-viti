@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  api-database:
+    image: mongo:latest
+    container_name: "api-database"
+    restart: always
+    ports:
+      - "27017:27017"

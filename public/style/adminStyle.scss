@@ -1,0 +1,278 @@
+$background: #e8e9ea;
+$color: #737576;
+$background-hover: #d6d9e2;
+$color-hover: #414141;
+
+.edit-group{
+
+  .buttons{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 0;
+
+  }
+  .admin-header{
+    background: #eee;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  .edit-group-body{
+    padding-top: 1em;
+  }
+}
+.page{
+    display: flex;
+    min-height: 100%;
+    height: 100%;
+}
+.left-menu{
+    background-color: $background;
+    color: $color;
+    width: max-content;
+    position: fixed;
+    width: 19em;
+    height: 100vh;
+    ul{
+        padding: 0em;
+        margin: 0;
+        width: 100%;
+        li{
+            width: 100%;
+            padding: 1em 2em;
+            cursor: pointer;
+            list-style: none;
+        }
+        li:hover {
+            background: $background-hover;
+            color: $color-hover;
+        }
+    }
+    .active{
+        background: $background-hover;
+        color: $color-hover;
+        font-weight: 500;
+    }
+    .left-menu-logo{
+        background-color: rgb(23, 23, 32);
+        padding: 1em 2em;
+        a{
+            color: #fff;
+            &:hover{
+                color: rgb(213, 213, 213);
+            }
+        }
+    }
+}
+.right-page{
+    padding-left: 19em;
+    width: 98vw;
+    .page-right-block{
+        display: none;
+    }
+    .openblock{
+        display: block !important;
+    }
+}
+
+
+@mixin createButton($width, $height, $radius, $gradientFirst, $gradientThird,
+$shadowColor, $textColor, $font-size)
+{
+ border-radius: $radius;
+ background-image: linear-gradient( 135deg, $gradientFirst 0%, $gradientThird 100%);
+ box-shadow: 0 .5em .6em -.5em $shadowColor;
+ outline: none;
+ border: none;
+ cursor: pointer;
+ font-size: $font-size;
+ color: $textColor;
+ height: $height;
+ width: $width;
+}
+.admin-cont{
+    margin: 1em;
+    width: 100%;
+    .admin-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        h2{
+            font-weight: 500;
+            font-size: 1.7em;
+        }
+        button{
+            font-weight: 500;
+        }
+        
+    }
+    .admin-table, table{
+        width: 100%;
+        td > button{
+            border: none;
+            background-color: rgba(255, 255, 255, 0);
+        }
+    }
+}
+table{
+  width: 100% !important;
+  td{
+    text-align: center;
+  }
+}
+.paginate_button.current{
+  background: rgba(243, 243, 243, 0.61) !important;
+}
+.paginate_button:hover{
+  background: rgba(224, 224, 224, 0.34) !important;
+  color: #2c2c2c;
+}
+
+.plus_btn{
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+    -moz-transition: .3s ease;
+    -ms-transition: .3s ease;
+    -o-transition: .3s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+    @include createButton(2em,2em,.2em,#4889d8,#4889d8,#4889d8b4,#ffffff,1.2em);
+  }
+  .blue_btn{
+      transition: .3s ease;
+      -webkit-transition: .3s ease;
+      -moz-transition: .3s ease;
+      -ms-transition: .3s ease;
+      -o-transition: .3s ease;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+      @include createButton(100%,2em,.2em,#4889d8,#4889d8,#4889d8b4,#ffffff,1.2em);
+    }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    transition: 1s ease all;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.3);
+    -webkit-transition: 1s ease all;
+    -moz-transition: 1s ease all;
+    -ms-transition: 1s ease all;
+    -o-transition: 1s ease all;
+    .modal-content{
+        background-color: #fefefe;
+        margin:  auto; /* 15% from the top and centered */
+        padding: 1em;
+        height: max-content;
+        width: 30vw !important; /* Could be more or less, depending on screen size */
+      }
+      .modal-header{
+          display: flex;
+          justify-content: space-between;
+          h5{
+              margin: 0;
+          }
+      }
+      .modal-body{
+          margin: 1em 0;
+      }
+      /* The Close Button */
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 1.5em;
+        font-weight: bold;
+        align-self: flex-end;
+      }
+      
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+  }
+
+
+
+  .addStudents_modal{
+    h6{
+      color: rgb(174, 60, 60);
+    }
+}
+.input-wrapper{
+    margin: 1em 0;
+}
+form{
+    width: 100%;
+  }
+$primary: #3d86c6;
+$secondary: #95bfe4;
+$white: #fff;
+$gray: #9b9b9b;
+.form__group {
+position: relative;
+padding: 15px 0 0;
+margin-top: 10px;
+width: 100%;
+}
+
+.form__field {
+font-family: inherit;
+width: 100%;
+border: 0;
+border-bottom: 1px solid $gray;
+outline: 0;
+font-size: 1rem;
+color: #565656;
+padding: 5px 0;
+background: transparent;
+transition: border-color 0.3s;
+-webkit-transition: border-color 0.3s;
+-moz-transition: border-color 0.3s;
+-ms-transition: border-color 0.3s;
+-o-transition: border-color 0.3s;
+&::placeholder {
+color: transparent;
+}
+&:placeholder-shown ~ .form__label {
+font-size: 1.1rem;
+cursor: text;
+top: 20px;
+}
+}
+.form__label {
+position: absolute;
+top: 0;
+display: block;
+transition: 0.2s;
+font-size: 1rem;
+color: $gray;
+}
+.form__field:focus {
+~ .form__label {
+position: absolute;
+top: 0;
+display: block;
+transition: 0.2s;
+font-size: 1rem;
+color: $primary;
+font-weight:500;    
+}
+padding-bottom: 6px;  
+border-width: 2px;
+border-image: linear-gradient(to right, $primary,$secondary);
+border-image-slice: 1;
+}
+/* reset input */
+.form__field{
+&:required,&:invalid { box-shadow:none; }
+}
