@@ -3,7 +3,7 @@ version: "3"
 services:
   api-database:
     image: mongo:latest
-    container_name: "api-database"
+    container_name: "api-database-viti"
     restart: always
     ports:
-      - "27016:27016"
+      - "27017:27017"

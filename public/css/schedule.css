@@ -7,9 +7,15 @@ body {
     background-size: cover;
 }
 
+@media (max-width: 4000px) {
+    .height-card {
+        height: 7.7rem;
+    }
+}
+
 @media (max-width: 2560px) {
     .height-card {
-        height: 8.4rem;
+        height: 7rem;
     }
 
     .h1 {

@@ -2,7 +2,7 @@ function saveAudience(){
     $.post("/admin/schedule/allAudiencesByUserName", {username: $('#username').val()}, function (audiences) {
         $.each(audiences, function (key, value) {
             let getData = $('#' + value.audienceTitle).val()
-            let groupInAudience = getData !== '' ? getData : '0'
+            let groupInAudience = getData !== '' ? getData : 'null'
             $.ajax({
                 url: '/admin/audience/save',
                 method: 'post',
