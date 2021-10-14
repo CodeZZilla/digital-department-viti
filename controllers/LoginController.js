@@ -31,9 +31,15 @@ exports.postLoginGo = async function(req, res){
 }
 
 exports.postCreateUser = async function(req, res){
-    let user = await api.createUser(req.body)
-    req.session.user = {id: user._id, username: user.username, title: user.title, description: user.description}
-    return res.redirect('/')
+    try {
+        let user = await api.createUser(req.body)
+        req.session.user = {id: user._id, username: user.username, title: user.title, description: user.description}
+        return res.redirect('/')
+    }catch (err){
+        res.render('error', {
+            error: 'Виникла помилка реєстрації'
+        })
+    }
 }
 
 exports.postLogoutUser = async function(req, res){

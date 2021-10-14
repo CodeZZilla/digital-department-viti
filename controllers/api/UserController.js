@@ -1,6 +1,11 @@
 let crypto = require('crypto')
 let User = require('../../models/User.js')
 
+function exception(err) {
+    if (err) return 'error';
+    return 'ok';
+}
+
 exports.createUser = async function (userData) {
     let user = new User({
         username: userData.username,
@@ -12,6 +17,13 @@ exports.createUser = async function (userData) {
 exports.getAllUsers = async function () {
     let users = await User.find({})
     return users;
+}
+
+exports.updateTitleAndDescriptionById = async function(id, title, description){
+    let user = await User.findById(id)
+    user.title = title
+    user.description = description
+    await User.findByIdAndUpdate(id, user, exception)
 }
 
 exports.getUserByUsername = async function (username) {

@@ -1,5 +1,6 @@
 const Lesson = require('../models/Lesson')
 const api = require('../controllers/api/AudienceController')
+const userApi = require('../controllers/api/UserController')
 
 exports.getAudiencePage = async function(req, res){
     if (req.session.user === undefined) {
@@ -90,5 +91,18 @@ exports.postAudienceSave = async function(req, res) {
 
         let audiences = await api.findAllByIdUser(req.session.user.id)
         res.json(audiences)
+    }
+}
+
+exports.postUserEdit = async function(req, res){
+    if (req.session.user === undefined) {
+        res.render('error', {error: 'Ви не увійшли в аккаунт'})
+    } else {
+        let title = 'Кафедра ' + (req.body.number === '' ? 'NaN' : req.body.number)
+        let description = req.body.description === '' ? 'null' : req.body.description
+        await userApi.updateTitleAndDescriptionById(req.body.idUser, title, description)
+        req.session.user.title = title
+        req.session.user.description = description
+        res.json(title)
     }
 }
