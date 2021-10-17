@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Головна</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <% if(userSession === undefined){ %>
+        <a class="navbar-brand" href="/">Розклад ВІТІ</a>
+    <% } else { %>
+        <a class="navbar-brand" href="/"><%= userSession.title %></a>
+    <% } %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Головна</a>
+            </li>
+
+            <% if(userSession !== undefined){ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/schedule/view/<%= userSession.username %>">Розклад</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/audience/">Аудиторії</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/settings/">Налаштування</a>
+                </li>
+            <% } %>
+            <li class="nav-item active">
+                <a class="nav-link" href="/search">Пошук</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Інструкція</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Про продукт</a>
+            </li>
+        </ul>
+        <% if(userSession === undefined){ %>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="/user/login">Увійти</a>
+            <a class="btn btn-outline-info ml-2 my-2 my-sm-0" href="/user/create">Зареєструватися</a>
+        <% } else { %>
+            <form class="my-2 my-sm-0" action="/user/logout" method="post">
+                <button class="btn btn-outline-danger" type="submit">Вийти</button>
+            </form>
+        <% } %>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row p-2 border-bottom border-secondary">
+        <div class="col-3">
+            <p class="h6 mb-2 text-center">Вибір груп</p>
+            <select class="selectpicker" data-width="100%" multiple data-live-search="true"
+                    data-actions-box="true" id="selectGroups">
+                <% for (let group of groups){ %>
+                    <option value="<%= group %>"><%= group %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="col-3">
+            <p class="h6 mb-2 text-center">Вибір кафедр</p>
+            <select class="selectpicker" data-width="100%" multiple data-live-search="true"
+                    data-actions-box="true" id="selectUsersId">
+                <% for (const [key, value] of departmentsNumberMap.entries()) { %>
+                    <option value="<%= value %>"><%= key %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="col-2">
+            <p class="h6 mb-2 text-center">Вибір пари</p>
+            <select class="selectpicker" data-width="100%" multiple data-live-search="true"
+                    data-actions-box="true" id="selectNumberLessons">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <p class="h6 mb-2 text-center">Вид заняття</p>
+            <select class="selectpicker" data-width="100%" multiple data-live-search="true"
+                    data-actions-box="true" id="selectTypesId">
+                <% for (let type of types){ %>
+                    <option value="<%= type._id %>"><%= type.typeTitle %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="col-2 d-flex">
+            <button type="button" class="btn btn-primary mx-auto my-auto w-75"
+                    onclick="searchClick()">
+                Пошук
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 p-5">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Дисципліна</th>
+                    <th scope="col">Викладач</th>
+                    <th scope="col">Вид</th>
+                    <th scope="col">Група</th>
+                    <th scope="col">Пара</th>
+                    <th scope="col">Кафедра</th>
+                    <th scope="col">Аудиторія</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-3.2.1.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-select.min.js"></script>
+<script src="/js/defaults-en_US.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/search.js"></script>
+</body>
+</html>
