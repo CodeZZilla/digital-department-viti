@@ -108,6 +108,20 @@ router.post('/search/params', async (req, res) => {
     res.json(output)
 })
 
+router.get('/search/groups', async (req, res) => {
+    let lessons = await LessonAPI.findAllNowDate()
+    res.json(uniqueGroups(lessons))
+})
+
+router.get('/search/departmentsNumberMap', async (req, res) => {
+    let users = await UserAPI.getAllUsers()
+    res.json(uniqueDepartmentMap(users))
+})
+
+router.get('/search/types', async (req, res) => {
+    res.json(await TypeAPI.findAll())
+})
+
 function uniqueGroups(lessons) {
     let result = [];
 
