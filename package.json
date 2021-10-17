@@ -4,7 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "app": "node app.js",
+    "bot": "node bot.js",
+    "dev": "concurrently --kill-others \"npm run app\" \"npm run bot\""
+
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -16,5 +19,8 @@
   },
   "keywords": [],
   "author": "Dima Binkovskiy",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^6.3.0"
+  }
 }
