@@ -115,7 +115,9 @@ router.get('/search/groups', async (req, res) => {
 
 router.get('/search/departmentsNumberMap', async (req, res) => {
     let users = await UserAPI.getAllUsers()
-    res.json(uniqueDepartmentMap(users))
+    let output = uniqueDepartmentMap(users)
+    const obj = Object.fromEntries(output)
+    res.json(obj)
 })
 
 router.get('/search/types', async (req, res) => {
