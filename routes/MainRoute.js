@@ -93,11 +93,12 @@ router.post('/search/params', async (req, res) => {
     let output = []
     for (let item of outputLessonsUsers){
         let user = await UserAPI.getUser(item.idUser)
+        let type = await TypeAPI.findById(item.idType)
         output.push({
             date: item.date,
             numberLesson: item.numberLesson,
             audience: (await AudienceAPI.findById(item.idAudience)).audienceTitle,
-            type: (await TypeAPI.findById(item.idType)).typeTitle === 'null',
+            type: type.typeTitle === 'null' ? '' : type.typeTitle,
             departmentNumber: user.title.split(' ')[1],
             title: item.title,
             teacher: item.teacher,
