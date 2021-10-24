@@ -14,7 +14,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/digital-department',
+        mongoUrl: 'mongodb://localhost:27017/digital-department-viti',
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,

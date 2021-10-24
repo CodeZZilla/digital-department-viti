@@ -16,10 +16,19 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "mongoose": "^5.12.12",
+    "node-fetch": "^3.0.0",
     "node-telegram-bot-api": "^0.54.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "telegraf": "^4.4.2"
   },
-  "keywords": [],
+  "keywords": [
+    "department",
+    "viti",
+    "zsu",
+    "kafedra-22",
+    "bot-telegram",
+    "schedule"
+  ],
   "author": "Dima Binkovskiy",
   "license": "ISC",
   "devDependencies": {

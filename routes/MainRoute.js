@@ -97,7 +97,7 @@ router.post('/search/params', async (req, res) => {
             date: item.date,
             numberLesson: item.numberLesson,
             audience: (await AudienceAPI.findById(item.idAudience)).audienceTitle,
-            type: (await TypeAPI.findById(item.idType)).typeTitle,
+            type: (await TypeAPI.findById(item.idType)).typeTitle === 'null',
             departmentNumber: user.title.split(' ')[1],
             title: item.title,
             teacher: item.teacher,
