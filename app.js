@@ -34,6 +34,7 @@ app.use('/', require('./routes/MainRoute'))
 app.use('/user', require('./routes/LoginRoute'))
 app.use('/admin', require('./routes/AdminRoute'))
 app.use('/admin/schedule', require('./routes/ScheduleRoute'))
+app.use('/api/telegram', require('./routes/UserTelegramAPI'))
 
 
 app.use(function (req, res, next) {
