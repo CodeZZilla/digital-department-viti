@@ -3,8 +3,10 @@ const path = require("path")
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const app = express()
+app.use(cors())
 const PORT = 8989
 
 require('./config/connect-mongo')
