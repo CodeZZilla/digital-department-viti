@@ -8,12 +8,20 @@ body {
 }
 
 @media (max-width: 4000px) {
+    .height-card-9 {
+        height: 7.0rem;
+    }
+
     .height-card {
         height: 7.7rem;
     }
 }
 
 @media (max-width: 2560px) {
+    .height-card-9 {
+        height: 6rem;
+    }
+
     .height-card {
         height: 7rem;
     }
@@ -36,6 +44,7 @@ body {
 }
 
 @media (max-width: 1800px) {
+    .height-card-9,
     .height-card {
         height: 6rem;
     }
@@ -54,6 +63,7 @@ body {
 }
 
 @media (max-width: 1440px) {
+    .height-card-9,
     .height-card {
         height: 4.5rem;
     }
@@ -70,6 +80,7 @@ body {
 }
 
 @media (max-width: 1024px) {
+    .height-card-9,
     .height-card {
         height: 4.2rem;
     }
@@ -92,6 +103,7 @@ body {
 }
 
 @media (max-width: 848px) {
+    .height-card-9,
     .height-card {
         height: 3.3rem;
     }
@@ -155,4 +167,8 @@ body {
 
 .lines-0 {
     margin-bottom: 1.2rem;
+}
+
+.lines-1 {
+    margin-bottom: 0.1rem;
 }
