@@ -16,11 +16,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/digital-department-viti',
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true
+        mongoUrl: 'mongodb://admin:zsxadc1234@localhost:27017/digital-department-viti?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false'
     })
 }));
 
